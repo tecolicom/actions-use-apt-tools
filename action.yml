@@ -1,0 +1,64 @@
+name: install/cache apt packages
+
+inputs:
+  packages:
+    required: true
+    type: string
+  cache:
+    required: false
+    type: string
+    default: yes
+  cache_gen:
+    required: false
+    type: string
+    default: v1
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: apt package info
+      id: apt
+      shell: bash
+      run: |
+        gen="${{ inputs.cache_gen }}"
+        hash=$( (uname -mrsv; echo $gen $package) | md5sum | awk '{print $1}' )
+        cat << END
+        ::set-output name=archive::$HOME/apt-package.tz
+        ::set-output name=hash::$hash
+        END
+
+    - name: apt cache
+      if: inputs.cache == 'yes'
+      id: cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.apt.outputs.archive }}
+        key:  ${{ steps.apt.outputs.hash }}
+
+    - name: extract apt archive
+      if: inputs.cache == 'yes' && steps.cache.outputs.cache-hit == 'true'
+      shell: bash
+      run: |
+        archive="${{ steps.apt.outputs.archive }}"
+        ls -l $archive
+        [ `wc -c < $archive` -lt 100 ] && cat -v $archive
+        [ -f $archive ] && sudo tar -C / -xvzf $archive
+
+    - name: install packages
+      if: inputs.cache != 'yes' || steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        package="${{ inputs.packages }}"
+        sudo apt-get install -y $package
+
+    - name: archive installed package
+      if: inputs.cache == 'yes' && steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        packages="${{ inputs.packages }}"
+        archive="${{ steps.apt.outputs.archive }}"
+        list=/tmp/dpkg.out
+        dpkg -L $packages | while read f; do [ -d "$f" ] || echo "$f"; done > $list
+        tar -cvzf $archive -T $list
+        ls -l $archive
