@@ -14,7 +14,7 @@ inputs:
     default: v1
 
 runs:
-  using: "composite"
+  using: composite
   steps:
 
     - name: apt package info
@@ -42,7 +42,6 @@ runs:
       run: |
         archive="${{ steps.apt.outputs.archive }}"
         ls -l $archive
-        [ `wc -c < $archive` -lt 100 ] && cat -v $archive
         [ -f $archive ] && sudo tar -C / -xvzf $archive
 
     - name: install packages
