@@ -28,7 +28,7 @@ runs:
         END
 
     - id: cache
-      if: steps.apt.outpts.cache != '' || inputs.cache == 'workflow'
+      if: steps.apt.outpts.cache != ''
       uses: actions/cache@v2
       with:
         path: ${{ steps.apt.outputs.archive }}
