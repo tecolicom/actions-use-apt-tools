@@ -28,7 +28,7 @@ runs:
         END
 
     - id: cache
-      if: steps.apt.outpts.cache != ''
+      if: steps.apt.outputs.cache != ''
       uses: actions/cache@v2
       with:
         path: ${{ steps.apt.outputs.archive }}
