@@ -1,0 +1,49 @@
+name: test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  initial:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          cache: workflow
+          packages: bmake
+      - run: |
+          bmake || true
+  cached:
+    needs: initial
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          cache: workflow
+          packages: bmake
+      - run: bmake || true
+  no-cache:
+    needs: initial
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          cache: no
+          packages: bmake
+      - run: bmake || true
+  cache-gen:
+    needs: initial
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          cache: workflow
+          packages: bmake
+          cache_gen: v2
+      - run: bmake || true

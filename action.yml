@@ -1,43 +1,41 @@
 name: install/cache apt packages
 
 inputs:
-  packages:
-    required: true
-    type: string
-  cache:
-    required: false
-    type: string
-    default: yes
-  cache_gen:
-    required: false
-    type: string
-    default: v1
+  packages:  { required: true,  type: string }
+  cache:     { required: false, type: string, default: yes }
+  cache_gen: { required: false, type: string, default: v1 }
 
 runs:
   using: composite
   steps:
 
-    - name: apt package info
-      id: apt
+    - id: apt
+      name: apt package info
       shell: bash
       run: |
+        case "${{ inputs.cache }}" in
+          yes|workflow) cache="${{ inputs.cache }}" ;;
+          *) cache= ;;
+        esac
         gen="${{ inputs.cache_gen }}"
-        hash=$( (uname -mrsv; echo $gen $package) | md5sum | awk '{print $1}' )
+        packages="${{ inputs.packages }}"
+        hash=$( (uname -mrsv; echo $gen $packages) | md5sum | awk '{print $1}' )
+        [ "$cache" == 'workflow' ] && hash=$hash-${{ github.run_id }}
         cat << END
-        ::set-output name=archive::$HOME/apt-package.tz
+        ::set-output name=cache::$cache
+        ::set-output name=archive::/tmp/apt-package.tz
         ::set-output name=hash::$hash
         END
 
-    - name: apt cache
-      if: inputs.cache == 'yes'
-      id: cache
+    - id: cache
+      if: steps.apt.outpts.cache != '' || inputs.cache == 'workflow'
       uses: actions/cache@v2
       with:
         path: ${{ steps.apt.outputs.archive }}
         key:  ${{ steps.apt.outputs.hash }}
 
     - name: extract apt archive
-      if: inputs.cache == 'yes' && steps.cache.outputs.cache-hit == 'true'
+      if: steps.apt.outputs.cache != '' && steps.cache.outputs.cache-hit == 'true'
       shell: bash
       run: |
         archive="${{ steps.apt.outputs.archive }}"
@@ -45,14 +43,13 @@ runs:
         [ -f $archive ] && sudo tar -C / -xvzf $archive
 
     - name: install packages
-      if: inputs.cache != 'yes' || steps.cache.outputs.cache-hit != 'true'
+      if: steps.apt.outputs.cache == '' || steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        package="${{ inputs.packages }}"
-        sudo apt-get install -y $package
+        sudo apt-get install -y ${{ inputs.packages }}
 
     - name: archive installed package
-      if: inputs.cache == 'yes' && steps.cache.outputs.cache-hit != 'true'
+      if: steps.apt.outputs.cache != '' && steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
         packages="${{ inputs.packages }}"
