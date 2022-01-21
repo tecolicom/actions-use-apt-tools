@@ -1,4 +1,4 @@
-# actions-use-apt-packages
+# actions-use-apt-tools
 
 This Github action isntall apt packages and cache them for later use.
 When executed next time with same package list, and any other
@@ -7,34 +7,33 @@ cached archive.
 
 Installed file list is taken by `dpkg` command.
 
-When cached archive is not found, all packages are installed by
+When valid cached archive is not found, all packages are installed by
 `apt-get` command.  Incremental installation is not supported.
 
 Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
-## usage
+## Usage
 
 ```
 # inputs:
-#   packages:  { required: true,  type: string }
+#   tools:     { required: true,  type: string }
 #   cache:     { required: false, type: string, default: yes }
 #   cache_gen: { required: false, type: string, default: v1 }
 
-- uses: office-tecoli/actions-use-apt-packages
+- uses: office-tecoli/actions-use-apt-tools
   with:
 
     # apt packages
-    packages: ''
+    tools: ''
 
     # Cache strategey
     #
     # yes:      activate cache
+    # no:       no cache
     # workflow: effective within same workflow (mainly for test)
     #
-    # anything else means 'no'
     cache: yes
 
-    #
     # Cache generation.
     # You can set any string to this parameter and different generation
     # number produces different cache key.

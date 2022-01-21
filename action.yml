@@ -1,7 +1,7 @@
-name: install/cache apt packages
+name: install/cache apt tools
 
 inputs:
-  packages:  { required: true,  type: string }
+  tools:     { required: true,  type: string }
   cache:     { required: false, type: string, default: yes }
   cache_gen: { required: false, type: string, default: v1 }
 
@@ -13,8 +13,7 @@ runs:
   using: composite
   steps:
 
-    - id: apt
-      name: apt package info
+    - id: setup
       shell: bash
       run: |
         case "${{ inputs.cache }}" in
@@ -22,8 +21,8 @@ runs:
           *) cache= ;;
         esac
         gen="${{ inputs.cache_gen }}"
-        packages="${{ inputs.packages }}"
-        hash=$( (uname -mrsv; echo $gen $packages) | md5sum | awk '{print $1}' )
+        tools="${{ inputs.tools }}"
+        hash=$( (uname -mrsv; echo $gen $tools) | md5sum | awk '{print $1}' )
         [ "$cache" == 'workflow' ] && hash=$hash-${{ github.run_id }}
         cat << END
         ::set-output name=cache::$cache
@@ -32,33 +31,33 @@ runs:
         END
 
     - id: cache
-      if: steps.apt.outputs.cache != ''
+      if: steps.setup.outputs.cache != ''
       uses: actions/cache@v2
       with:
-        path: ${{ steps.apt.outputs.archive }}
-        key:  ${{ steps.apt.outputs.hash }}
+        path: ${{ steps.setup.outputs.archive }}
+        key:  ${{ steps.setup.outputs.hash }}
 
     - name: extract apt archive
-      if: steps.apt.outputs.cache != '' && steps.cache.outputs.cache-hit == 'true'
+      if: steps.setup.outputs.cache != '' && steps.cache.outputs.cache-hit == 'true'
       shell: bash
       run: |
-        archive="${{ steps.apt.outputs.archive }}"
+        archive="${{ steps.setup.outputs.archive }}"
         ls -l $archive
         [ -f $archive ] && sudo tar -C / -xvzf $archive
 
-    - name: install packages
-      if: steps.apt.outputs.cache == '' || steps.cache.outputs.cache-hit != 'true'
+    - name: install tools
+      if: steps.setup.outputs.cache == '' || steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        sudo apt-get install -y ${{ inputs.packages }}
+        sudo apt-get install -y ${{ inputs.tools }}
 
-    - name: archive installed package
-      if: steps.apt.outputs.cache != '' && steps.cache.outputs.cache-hit != 'true'
+    - name: archive installed files
+      if: steps.setup.outputs.cache != '' && steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        packages="${{ inputs.packages }}"
-        archive="${{ steps.apt.outputs.archive }}"
+        tools="${{ inputs.tools }}"
+        archive="${{ steps.setup.outputs.archive }}"
         list=/tmp/dpkg.out
-        dpkg -L $packages | while read f; do [ -d "$f" ] || echo "$f"; done > $list
+        dpkg -L $tools | while read f; do [ -d "$f" ] || echo "$f"; done > $list
         tar -cvzf $archive -T $list
         ls -l $archive
