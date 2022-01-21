@@ -13,39 +13,46 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        id: action
         with:
           cache: workflow
           packages: bmake
-      - run: |
-          bmake hasta-la-vista || true
+      - run: bmake -C __test__/hello
+      - run: test "${{ steps.action.outputs.cache-hit }}" != true
   cached:
     needs: initial
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        id: action
         with:
           cache: workflow
           packages: bmake
-      - run: bmake hasta-la-vista || true
+      - run: bmake -C __test__/hello
+      - run: test "${{ steps.action.outputs.cache-hit }}" == true
   no-cache:
     needs: initial
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        id: action
         with:
           cache: no
           packages: bmake
-      - run: bmake hasta-la-vista || true
+      - run: bmake -C __test__/hello
+      - run: test "${{ steps.action.outputs.cache-hit }}" != true
   cache-gen:
     needs: initial
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        id: action
         with:
           cache: workflow
           packages: bmake
           cache_gen: v2
-      - run: bmake hasta-la-vista || true
+      - run: bmake -C __test__/hello
+      - run: test "${{ steps.action.outputs.cache-hit }}" != true

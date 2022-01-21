@@ -5,6 +5,10 @@ inputs:
   cache:     { required: false, type: string, default: yes }
   cache_gen: { required: false, type: string, default: v1 }
 
+outputs:
+  cache-hit:
+    value: ${{ steps.cache.outputs.cache-hit }}
+
 runs:
   using: composite
   steps:

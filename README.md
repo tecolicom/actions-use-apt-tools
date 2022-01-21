@@ -10,6 +10,8 @@ Installed file list is taken by `dpkg` command.
 When cached archive is not found, all packages are installed by
 `apt-get` command.  Incremental installation is not supported.
 
+Output is same as [`@actions/cache`](https://github.com/actions/cache).
+
 ## usage
 
 ```
