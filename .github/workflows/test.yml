@@ -53,6 +53,6 @@ jobs:
         with:
           cache: workflow
           tools: bmake
-          cache_gen: v2
+          cache-gen: v2
       - run: bmake -C __test__/hello
       - run: test "${{ steps.action.outputs.cache-hit }}" != true

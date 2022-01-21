@@ -3,7 +3,7 @@ name: install/cache apt tools
 inputs:
   tools:     { required: true,  type: string }
   cache:     { required: false, type: string, default: yes }
-  cache_gen: { required: false, type: string, default: v1 }
+  cache-gen: { required: false, type: string, default: v1 }
 
 outputs:
   cache-hit:
@@ -20,7 +20,7 @@ runs:
           yes|workflow) cache="${{ inputs.cache }}" ;;
           *) cache= ;;
         esac
-        gen="${{ inputs.cache_gen }}"
+        gen="${{ inputs.cache-gen }}"
         tools="${{ inputs.tools }}"
         hash=$( (uname -mrsv; echo $gen $tools) | md5sum | awk '{print $1}' )
         [ "$cache" == 'workflow' ] && hash=$hash-${{ github.run_id }}
