@@ -14,13 +14,13 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
 ## Usage
 
-```
+```yaml
 # inputs:
 #   tools:     { required: true,  type: string }
 #   cache:     { required: false, type: string, default: yes }
 #   cache-gen: { required: false, type: string, default: v1 }
 
-- uses: office-tecoli/actions-use-apt-tools
+- uses: office-tecoli/actions-use-apt-tools@v0
   with:
 
     # apt packages
@@ -40,5 +40,12 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
     #
     # Default: v1
     cache-gen: v1
+```
 
+## Example
+
+```yaml
+- uses: office-tecoli/actions-use-apt-tools@v0
+  with:
+    tools: bmake
 ```
