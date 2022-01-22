@@ -1,5 +1,7 @@
 # actions-use-apt-tools
 
+![actions-use-apt-tools](https://github.com/office-tecoli/actions-use-apt-tools/actions/workflows/test.yml/badge.svg)
+
 This Github action isntall apt packages and cache them for later use.
 When executed next time with same package list, and any other
 environment are not changed, installed files are extracted from the
