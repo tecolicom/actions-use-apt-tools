@@ -18,7 +18,7 @@ runs:
       run: |
         case "${{ inputs.cache }}" in
           yes|workflow) cache="${{ inputs.cache }}" ;;
-          *) cache= ;;
+          *)            cache=no ;;
         esac
         gen="${{ inputs.cache-gen }}"
         tools="${{ inputs.tools }}"
@@ -31,28 +31,28 @@ runs:
         END
 
     - id: cache
-      if: steps.setup.outputs.cache != ''
+      if: steps.setup.outputs.cache != 'no'
       uses: actions/cache@v2
       with:
         path: ${{ steps.setup.outputs.archive }}
         key:  ${{ steps.setup.outputs.hash }}
 
-    - name: extract apt archive
-      if: steps.setup.outputs.cache != '' && steps.cache.outputs.cache-hit == 'true'
+    - id: extract
+      if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit == 'true'
       shell: bash
       run: |
         archive="${{ steps.setup.outputs.archive }}"
         ls -l $archive
         [ -f $archive ] && sudo tar -C / -xvzf $archive
 
-    - name: install tools
-      if: steps.setup.outputs.cache == '' || steps.cache.outputs.cache-hit != 'true'
+    - id: install
+      if: steps.setup.outputs.cache == 'no' || steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
         sudo apt-get install -y ${{ inputs.tools }}
 
-    - name: archive installed files
-      if: steps.setup.outputs.cache != '' && steps.cache.outputs.cache-hit != 'true'
+    - id: archive
+      if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
         tools="${{ inputs.tools }}"
