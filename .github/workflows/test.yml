@@ -17,7 +17,7 @@ jobs:
         with:
           cache: workflow
           tools: bmake
-      - run: bmake -C __test__/hello
+      - run: (cd __test__; . run.sh )
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
   cached:
     needs: initial
@@ -29,7 +29,7 @@ jobs:
         with:
           cache: workflow
           tools: bmake
-      - run: bmake -C __test__/hello
+      - run: (cd __test__; . run.sh )
       - run: test "${{ steps.action.outputs.cache-hit }}" == true
   no-cache:
     needs: initial
@@ -41,7 +41,7 @@ jobs:
         with:
           cache: no
           tools: bmake
-      - run: bmake -C __test__/hello
+      - run: (cd __test__; . run.sh )
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
   cache-gen:
     needs: initial
@@ -54,5 +54,5 @@ jobs:
           cache: workflow
           tools: bmake
           cache-gen: v2
-      - run: bmake -C __test__/hello
+      - run: (cd __test__; . run.sh )
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
