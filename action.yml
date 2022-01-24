@@ -22,7 +22,10 @@ runs:
         esac
         gen="${{ inputs.cache-gen }}"
         tools="${{ inputs.tools }}"
-        hash=$( (uname -mrsv; echo $gen $tools) | md5sum | awk '{print $1}' )
+        md5    /dev/null > /dev/null 2>&1 && md5=md5
+        md5sum /dev/null > /dev/null 2>&1 && md5=md5sum
+        test "md5" != ''
+        hash=$( (uname -mrsv; echo $gen $tools) | $md5 | awk '{print $1}' )
         [ "$cache" == 'workflow' ] && hash=$hash-${{ github.run_id }}
         cat << END
         ::set-output name=cache::$cache
