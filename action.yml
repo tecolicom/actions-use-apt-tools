@@ -17,20 +17,21 @@ runs:
       shell: bash
       run: |
         case "${{ inputs.cache }}" in
-          yes|workflow) cache="${{ inputs.cache }}" ;;
-          *)            cache=no ;;
+            yes|workflow) cache="${{ inputs.cache }}" ;;
+            *)            cache=no ;;
         esac
         gen="${{ inputs.cache-gen }}"
         tools="${{ inputs.tools }}"
         md5    /dev/null > /dev/null 2>&1 && md5=md5
         md5sum /dev/null > /dev/null 2>&1 && md5=md5sum
         test "md5" != ''
-        hash=$( (uname -mrsv; echo $gen $tools) | $md5 | awk '{print $1}' )
-        [ "$cache" == 'workflow' ] && hash=$hash-${{ github.run_id }}
+        hash=$( (uname -mrsv; echo $tools) | $md5 | awk '{print $1}' )
+        key="$hash-$gen"
+        [ "$cache" == 'workflow' ] && key=$key-${{ github.run_id }}
         cat << END
         ::set-output name=cache::$cache
-        ::set-output name=archive::/tmp/apt-package.tz
-        ::set-output name=hash::$hash
+        ::set-output name=archive::$HOME/$hash.tz
+        ::set-output name=key::$key
         END
 
     - id: cache
@@ -38,7 +39,7 @@ runs:
       uses: actions/cache@v2
       with:
         path: ${{ steps.setup.outputs.archive }}
-        key:  ${{ steps.setup.outputs.hash }}
+        key:  ${{ steps.setup.outputs.key }}
 
     - id: extract
       if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit == 'true'
