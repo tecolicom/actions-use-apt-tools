@@ -30,7 +30,7 @@ runs:
         [ "$cache" == 'workflow' ] && key=$key-${{ github.run_id }}
         cat << END
         ::set-output name=cache::$cache
-        ::set-output name=archive::$HOME/$hash.tz
+        ::set-output name=archive::$HOME/apt-$hash.tz
         ::set-output name=key::$key
         END
 
