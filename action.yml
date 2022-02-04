@@ -16,6 +16,7 @@ runs:
     - id: setup
       shell: bash
       run: |
+        : setup
         case "${{ inputs.cache }}" in
             yes|workflow) cache="${{ inputs.cache }}" ;;
             *)            cache=no ;;
@@ -42,6 +43,7 @@ runs:
       if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit == 'true'
       shell: bash
       run: |
+        : extract
         archive="${{ steps.setup.outputs.archive }}"
         ls -l $archive
         [ -f $archive ] && sudo tar -C / -xvzf $archive
@@ -49,13 +51,13 @@ runs:
     - id: install
       if: steps.setup.outputs.cache == 'no' || steps.cache.outputs.cache-hit != 'true'
       shell: bash
-      run: |
-        sudo apt-get install -y ${{ inputs.tools }}
+      run: sudo apt-get install -y ${{ inputs.tools }}
 
     - id: archive
       if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
+        : archive
         tools="${{ inputs.tools }}"
         archive="${{ steps.setup.outputs.archive }}"
         list=/tmp/dpkg.out
