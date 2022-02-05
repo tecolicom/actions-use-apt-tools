@@ -16,7 +16,7 @@ runs:
     - id: setup
       shell: bash
       run: |
-        : setup ${{ github.repository }}
+        : setup use-apt-tools
         case "${{ inputs.cache }}" in
             yes|workflow) cache="${{ inputs.cache }}" ;;
             *)            cache=no ;;
