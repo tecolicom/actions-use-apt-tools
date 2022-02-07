@@ -18,9 +18,9 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
 ```yaml
 # inputs:
-#   tools:     { required: true,  type: string }
-#   cache:     { required: false, type: string, default: yes }
-#   cache-gen: { required: false, type: string, default: v1 }
+#   tools: { required: true,  type: string }
+#   cache: { required: false, type: string, default: yes }
+#   key:   { required: false, type: string, default: v1 }
 
 - uses: office-tecoli/actions-use-apt-tools@v0
   with:
@@ -36,12 +36,8 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
     #
     cache: yes
 
-    # Cache generation.
-    # You can set any string to this parameter and different generation
-    # number produces different cache key.
-    #
-    # Default: v1
-    cache-gen: v1
+    # Additional cache key
+    key: ''
 ```
 
 ## Example
