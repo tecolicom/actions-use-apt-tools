@@ -28,7 +28,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
     # apt packages
     tools: ''
 
-    # Cache strategey
+    # Cache strategy
     #
     # yes:      activate cache
     # no:       no cache
