@@ -3,7 +3,6 @@ name: install/cache apt tools
 inputs:
   tools:     { required: true,  type: string }
   cache:     { required: false, type: string, default: yes }
-  cache-gen: { required: false, type: string, default: v1 }
   key:       { required: false, type: string }
 
 outputs:
@@ -22,11 +21,10 @@ runs:
             yes|workflow) cache="${{ inputs.cache }}" ;;
             *)            cache=no ;;
         esac
-        gen="${{ inputs.cache-gen }}"
         given_key="${{ inputs.key }}"
         tools="${{ inputs.tools }}"
         hash=$( (uname -mrsv; echo $tools) | (md5sum||md5) | awk '{print $1}' )
-        key="$hash${given_key:+-$given_key}${gen:+-$gen}"
+        key="$hash${given_key:+-$given_key}"
         [ "$cache" == 'workflow' ] && key="$key-${{ github.run_id }}-${{ github.run_attempt }}"
         cat << END
         ::set-output name=cache::$cache

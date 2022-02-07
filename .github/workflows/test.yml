@@ -43,7 +43,7 @@ jobs:
           tools: bmake
       - run: (cd __test__; . run.sh )
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
-  cache-gen:
+  key:
     needs: initial
     runs-on: ubuntu-latest
     steps:
@@ -53,6 +53,6 @@ jobs:
         with:
           cache: workflow
           tools: bmake
-          cache-gen: v2
+          key: v2
       - run: (cd __test__; . run.sh )
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
