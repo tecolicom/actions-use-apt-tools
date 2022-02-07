@@ -1,0 +1,47 @@
+name: multiple calls
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  initial:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: action1
+        with:
+          cache: workflow
+          tools: bmake
+      - run: (cd __test__; . run.sh )
+      - uses: ./
+        id: action2
+        with:
+          cache: workflow
+          tools: jq
+      - run: jq --version
+      - run: test "${{ steps.action1.outputs.cache-hit }}" != true
+      - run: test "${{ steps.action1.outputs.cache-hit }}" != true
+  cached:
+    needs: initial
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: action1
+        with:
+          cache: workflow
+          tools: bmake
+      - run: (cd __test__; . run.sh )
+      - uses: ./
+        id: action2
+        with:
+          cache: workflow
+          tools: jq
+      - run: jq --version
+      - run: test "${{ steps.action1.outputs.cache-hit }}" == true
+      - run: test "${{ steps.action2.outputs.cache-hit }}" == true
