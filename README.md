@@ -1,6 +1,6 @@
 # actions-use-apt-tools
 
-![actions-use-apt-tools](https://github.com/office-tecoli/actions-use-apt-tools/actions/workflows/test.yml/badge.svg)
+![actions-use-apt-tools](https://github.com/tecoli-com/actions-use-apt-tools/actions/workflows/test.yml/badge.svg)
 
 This GitHub action isntall apt packages and cache them for later use.
 When executed next time with same package list, and any other
@@ -22,7 +22,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 #   cache: { required: false, type: string, default: yes }
 #   key:   { required: false, type: string }
 
-- uses: office-tecoli/actions-use-apt-tools@v0
+- uses: tecoli-com/actions-use-apt-tools@v0
   with:
 
     # apt packages
@@ -43,7 +43,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 ## Example
 
 ```yaml
-- uses: office-tecoli/actions-use-apt-tools@v0
+- uses: tecoli-com/actions-use-apt-tools@v0
   with:
     tools: bmake
 ```
