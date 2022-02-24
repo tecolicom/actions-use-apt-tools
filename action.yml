@@ -1,4 +1,9 @@
 name: install/cache apt tools
+description: 'GitHub Action to install and cache apt tools'
+author: 'Office TECOLI, LLC'
+branding: 
+  color: 'orange'
+  icon: 'plus-square'
 
 inputs:
   tools: { required: true,  type: string }
