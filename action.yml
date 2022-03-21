@@ -1,4 +1,4 @@
-name: install/cache apt tools
+name: install-and-cache apt tools
 description: 'GitHub Action to install and cache apt tools'
 author: 'Office TECOLI, LLC'
 branding: 
