@@ -17,9 +17,10 @@ jobs:
         id: action
         with:
           cache: workflow
-          tools: mecab mecab-ipadic
+          tools: mecab mecab-ipadic-utf8
           method: timestamp
       - run: mecab --version
+      - run: ls -lR /var/lib/mecab
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
 
   cached:
@@ -31,8 +32,8 @@ jobs:
         id: action
         with:
           cache: workflow
-          tools: mecab mecab-ipadic
+          tools: mecab mecab-ipadic-utf8
           method: timestamp
       - run: mecab --version
-      - run: ls -R /var/lib/mecab
+      - run: ls -lR /var/lib/mecab
       - run: test "${{ steps.action.outputs.cache-hit }}" == true
