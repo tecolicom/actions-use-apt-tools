@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
+
   initial:
     runs-on: ubuntu-latest
     steps:
@@ -20,3 +21,18 @@ jobs:
           method: timestamp
       - run: mecab --version
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
+
+  cached:
+    needs: initial
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: action
+        with:
+          cache: workflow
+          tools: mecab mecab-ipadic
+          method: timestamp
+      - run: mecab --version
+      - run: ls -R /var/lib/mecab
+      - run: test "${{ steps.action.outputs.cache-hit }}" == true
