@@ -2,13 +2,14 @@ name: install-and-cache apt tools
 description: 'GitHub Action to install and cache apt tools'
 author: 'Office TECOLI, LLC'
 branding: 
-  color: 'orange'
-  icon: 'type'
+  color: orange
+  icon:  type
 
 inputs:
-  tools: { required: true,  type: string }
-  cache: { required: false, type: string, default: yes }
-  key:   { required: false, type: string }
+  tools:   { required: true,  type: string }
+  cache:   { required: false, type: string, default: yes }
+  key:     { required: false, type: string }
+  archive: { required: false, type: string, default: package }
 
 outputs:
   cache-hit:
@@ -54,12 +55,12 @@ runs:
         [ -f $archive ] && sudo tar -C / -xvzf $archive
 
     - id: install
-      if: steps.setup.outputs.cache == 'no' || steps.cache.outputs.cache-hit != 'true'
+      if: inputs.archive == 'package' && (steps.setup.outputs.cache == 'no' || steps.cache.outputs.cache-hit != 'true')
       shell: bash
       run: sudo apt-get install -y ${{ inputs.tools }}
 
     - id: archive
-      if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
+      if: inputs.archive == 'package' && steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
         : archive
