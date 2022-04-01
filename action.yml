@@ -61,7 +61,7 @@ runs:
         target: ${{ inputs.tools }}
         command: apt-get install
         archive: ${{ steps.setup.outputs.archive }}
-        directory: /usr /var
+        directory: /usr/bin /usr/sbin /usr/lib /usr/share /var/lib
         sudo: true
 
     - id: self-install
