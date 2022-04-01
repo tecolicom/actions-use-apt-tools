@@ -6,10 +6,10 @@ branding:
   icon:  type
 
 inputs:
-  tools:   { required: true,  type: string }
-  cache:   { required: false, type: string, default: yes }
-  key:     { required: false, type: string }
-  archive: { required: false, type: string, default: package }
+  tools:  { required: true,  type: string }
+  cache:  { required: false, type: string, default: yes }
+  key:    { required: false, type: string }
+  method: { required: false, type: string, default: package }
 
 outputs:
   cache-hit:
@@ -54,13 +54,23 @@ runs:
         ls -l $archive
         [ -f $archive ] && sudo tar -C / -xvzf $archive
 
-    - id: install
-      if: inputs.archive == 'package' && (steps.setup.outputs.cache == 'no' || steps.cache.outputs.cache-hit != 'true')
+    - id: install-and-archive
+      if: inputs.method == 'timestamp' && steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
+      uses: tecoli-com/actions-install-and-archive@v0
+      with:
+        target: ${{ inputs.tools }}
+        command: apt-get install
+        archive: ${{ steps.setup.outputs.archive }}
+        directory: /usr /var
+        sudo: true
+
+    - id: self-install
+      if: steps.setup.outputs.cache == 'no' || (inputs.method == 'package' && steps.cache.outputs.cache-hit != 'true')
       shell: bash
       run: sudo apt-get install -y ${{ inputs.tools }}
 
-    - id: archive
-      if: inputs.archive == 'package' && steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
+    - id: self-archive
+      if: inputs.method == 'package' && steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
         : archive

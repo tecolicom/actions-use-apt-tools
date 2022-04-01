@@ -1,0 +1,22 @@
+name: method-timestamp
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  initial:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: action
+        with:
+          cache: workflow
+          tools: mecab mecab-ipadic
+          method: timestamp
+      - run: mecab --version
+      - run: test "${{ steps.action.outputs.cache-hit }}" != true
