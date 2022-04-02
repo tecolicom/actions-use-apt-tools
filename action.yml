@@ -55,7 +55,10 @@ runs:
         [ -f $archive ] && sudo tar -C / -xvzf $archive
 
     - id: install-and-archive
-      if: inputs.method == 'timestamp' && steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
+      if: >-
+        inputs.method == 'timestamp' &&
+        steps.setup.outputs.cache != 'no' &&
+        steps.cache.outputs.cache-hit != 'true'
       uses: tecoli-com/actions-install-and-archive@v0
       with:
         target: ${{ inputs.tools }}
@@ -65,12 +68,16 @@ runs:
         sudo: true
 
     - id: self-install
-      if: steps.setup.outputs.cache == 'no' || (inputs.method == 'package' && steps.cache.outputs.cache-hit != 'true')
+      if: >-
+        steps.setup.outputs.cache == 'no' ||
+        (inputs.method == 'package' && steps.cache.outputs.cache-hit != 'true')
       shell: bash
       run: sudo apt-get install -y ${{ inputs.tools }}
 
     - id: self-archive
-      if: inputs.method == 'package' && steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
+      if: >-
+        steps.setup.outputs.cache != 'no' &&
+        (inputs.method == 'package' && steps.cache.outputs.cache-hit != 'true')
       shell: bash
       run: |
         : archive
