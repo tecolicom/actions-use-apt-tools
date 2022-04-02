@@ -15,7 +15,7 @@ There are two different methods to identify installed files.  Default
 is **package** method, and files are taken by `dpkg -L` command.  This
 method runs very fast.  For packages generate files during
 installation, use **timestamp** method, and all files those have newer
-timestamp are cached.  Files are searched under
+timestamp are cached.  Files are searched under /etc,
 /usr/{bin,sbin,lib,share} and /var/lib directory.  Search directries
 can be given by **directory** parameter.
 
@@ -30,7 +30,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 #   key:   { required: false, type: string }
 #   method: { required: false, type: string, default: package }
 #   directory: { required: false, type: string,
-#                default: "/usr/bin /usr/sbin /usr/lib /usr/share /var/lib" }
+#                default: "/etc /usr/bin /usr/sbin /usr/lib /usr/share /var/lib" }
 
 - uses: tecoli-com/actions-use-apt-tools@v0
   with:
