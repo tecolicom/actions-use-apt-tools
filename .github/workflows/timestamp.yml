@@ -37,3 +37,18 @@ jobs:
       - run: mecab --version
       - run: ls -lR /var/lib/mecab
       - run: test "${{ steps.action.outputs.cache-hit }}" == true
+
+  nocache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: action
+        with:
+          cache: no
+          tools: mecab mecab-ipadic-utf8
+          method: timestamp
+      - run: mecab --version
+      - run: ls -lR /var/lib/mecab
+      - run: test "${{ steps.action.outputs.cache-hit }}" != true
+
