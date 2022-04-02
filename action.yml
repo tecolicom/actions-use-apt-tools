@@ -10,6 +10,15 @@ inputs:
   cache:  { required: false, type: string, default: yes }
   key:    { required: false, type: string }
   method: { required: false, type: string, default: package }
+  directory:
+    required: false
+    type: string
+    default: >-
+      /usr/bin
+      /usr/sbin
+      /usr/lib
+      /usr/share
+      /var/lib
 
 outputs:
   cache-hit:
@@ -64,7 +73,7 @@ runs:
         target: ${{ inputs.tools }}
         command: apt-get install
         archive: ${{ steps.setup.outputs.archive }}
-        directory: /usr/bin /usr/sbin /usr/lib /usr/share /var/lib
+        directory: ${{ inputs.directory }}
         sudo: true
 
     - id: self-install
