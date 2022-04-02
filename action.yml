@@ -14,6 +14,7 @@ inputs:
     required: false
     type: string
     default: >-
+      /etc
       /usr/bin
       /usr/sbin
       /usr/lib
