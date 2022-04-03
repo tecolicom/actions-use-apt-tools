@@ -2,8 +2,8 @@
 
 ![actions-use-apt-tools](https://github.com/tecoli-com/actions-use-apt-tools/actions/workflows/test.yml/badge.svg)
 
-This GitHub action isntall apt packages and cache them for later use.
-When executed next time with same package list, and any other
+This GitHub action isntall Linux APT packages and cache them for later
+use.  When executed next time with same package list, and any other
 environment are not changed, installed files are extracted from the
 cached archive.
 
@@ -52,17 +52,35 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
     # Method to idenfity installed files
     #   package:   use "dpkg -L" command output
     #   timestamp: use file's timestamps to check update
-    method: { required: false, type: string, default: package }
+    method: package
 
     # Search directories with "timestamp" method
-    directory: { required: false, type: string,
-                 default: "/etc /usr/bin /usr/sbin /usr/lib /usr/share /var/lib" }
+    directory: ''
 ```
 
 ## Example
+
+### Normal case with default *package* method
 
 ```yaml
 - uses: tecoli-com/actions-use-apt-tools@v0
   with:
     tools: bmake
 ```
+
+### Using *timestamp* method
+
+For packages which generates additional files other than included in
+package during installation, use *timestamp* method.  If you know
+where they will be placed, provide them by a *directory* parameter.
+
+```yaml
+- uses: tecoli-com/actions-use-apt-tools@v0
+  with:
+    tools: mecab mecab-ipadic mecab-ipadic-utf8
+    method: timestamp
+```
+
+## See Also
+
+### [tecoli-com/actions](https://github.com/tecoli-com/actions)
