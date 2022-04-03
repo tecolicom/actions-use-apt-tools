@@ -1,3 +1,8 @@
-## v0
+## v0.2
 
-Version 0 release.
+- Introduce **method** parameter and implement new **timestamp**
+  method besides default **package** method.
+
+## v0.1
+
+- Version 0.1 release.
