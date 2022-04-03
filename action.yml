@@ -73,7 +73,7 @@ runs:
       uses: tecoli-com/actions-install-and-archive@v0
       with:
         target: ${{ inputs.tools }}
-        command: apt-get install
+        command: apt-get install -y
         archive: ${{ steps.setup.outputs.archive }}
         directory: ${{ inputs.directory }}
         sudo: true
