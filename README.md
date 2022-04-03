@@ -48,6 +48,15 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
     # Additional cache key
     key: ''
+
+    # Method to idenfity installed files
+    #   package:   use "dpkg -L" command output
+    #   timestamp: use file's timestamps to check update
+    method: { required: false, type: string, default: package }
+
+    # Search directories with "timestamp" method
+    directory: { required: false, type: string,
+                 default: "/etc /usr/bin /usr/sbin /usr/lib /usr/share /var/lib" }
 ```
 
 ## Example
