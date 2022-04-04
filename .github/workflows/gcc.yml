@@ -1,0 +1,29 @@
+name: 'g++-11 installation test'
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+
+  initial:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Add Apt Repo for GCC 11
+        shell: bash
+        run: |
+          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+          sudo apt update
+      - uses: ./
+        id: action
+        with:
+          cache: workflow
+          tools: g++-11
+          method: timestamp
+      - run: |
+          g++-11 --version
+      - run: test "${{ steps.action.outputs.cache-hit }}" != true
