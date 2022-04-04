@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Add Apt Repo for GCC 11
+      - id: add-apt-repo
         shell: bash
         run: |
           sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Add Apt Repo for GCC 11
+      - id: add-apt-repo
         shell: bash
         run: |
           sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
@@ -46,4 +46,4 @@ jobs:
           method: timestamp
       - run: |
           g++-11 --version
-      - run: test "${{ steps.action.outputs.cache-hit }}" != true
+      - run: test "${{ steps.action.outputs.cache-hit }}" == true
