@@ -10,7 +10,7 @@ inputs:
   cache:  { required: false, type: string, default: yes }
   key:    { required: false, type: string }
   method: { required: false, type: string, default: package }
-  directory:
+  path:
     required: false
     type: string
     default: >-
@@ -70,12 +70,12 @@ runs:
         inputs.method == 'timestamp' &&
         steps.setup.outputs.cache != 'no' &&
         steps.cache.outputs.cache-hit != 'true'
-      uses: tecoli-com/actions-install-and-archive@v0
+      uses: tecoli-com/actions-install-and-archive@v0.3
       with:
         target: ${{ inputs.tools }}
         command: apt-get install -y
         archive: ${{ steps.setup.outputs.archive }}
-        directory: ${{ inputs.directory }}
+        path: ${{ inputs.path }}
         sudo: true
 
     - id: self-install

@@ -17,7 +17,7 @@ method runs very fast.  For packages generate files during
 installation, use **timestamp** method, and all files those have newer
 timestamp are cached.  Files are searched under /etc,
 /usr/{bin,sbin,lib,share} and /var/lib directory.  Search directries
-can be given by **directory** parameter.
+can be given by **path** parameter.
 
 Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
@@ -25,12 +25,12 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
 ```yaml
 # inputs:
-#   tools: { required: true,  type: string }
-#   cache: { required: false, type: string, default: yes }
-#   key:   { required: false, type: string }
+#   tools:  { required: true,  type: string }
+#   cache:  { required: false, type: string, default: yes }
+#   key:    { required: false, type: string }
 #   method: { required: false, type: string, default: package }
-#   directory: { required: false, type: string,
-#                default: "/etc /usr/bin /usr/sbin /usr/lib /usr/share /var/lib" }
+#   path:   { required: false, type: string,
+#             default: "/etc /usr/bin /usr/sbin /usr/lib /usr/share /var/lib" }
 
 - uses: tecoli-com/actions-use-apt-tools@v0
   with:
@@ -54,8 +54,8 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
     #   timestamp: use file's timestamps to check update
     method: package
 
-    # Search directories with "timestamp" method
-    directory: ''
+    # Search path with "timestamp" method
+    path: ''
 ```
 
 ## Example
@@ -72,7 +72,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
 For packages which generates additional files other than included in
 package during installation, use *timestamp* method.  If you know
-where they will be placed, provide them by a *directory* parameter.
+where they will be placed, provide them by a *path* parameter.
 
 ```yaml
 - uses: tecoli-com/actions-use-apt-tools@v0
