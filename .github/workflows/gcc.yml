@@ -14,10 +14,22 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: add-apt-repo
+        uses: tecoli-com/actions-install-and-cache@v0
+        with:
+          cache: workflow
+          sudo: true
+          command: add-apt-repository -y
+          target: ppa:ubuntu-toolchain-r/test
+          path: >-
+            /etc
+            /usr/bin
+            /usr/sbin
+            /usr/lib
+            /usr/share
+            /var/lib
+      - id: apt-update
         shell: bash
-        run: |
-          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-          sudo apt update
+        run: sudo apt update
       - uses: ./
         id: action
         with:
