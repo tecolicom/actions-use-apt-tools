@@ -20,7 +20,7 @@ jobs:
           sudo: true
           command: add-apt-repository -y
           target: ppa:ubuntu-toolchain-r/test
-          path: /etc/apt /var/lib
+          path: /etc/apt /var/lib/apt /var/lib/waagent
       - run: sudo apt update
       - uses: ./
         id: action
@@ -44,7 +44,7 @@ jobs:
           sudo: true
           command: add-apt-repository -y
           target: ppa:ubuntu-toolchain-r/test
-          path: /etc/apt /var/lib
+          path: /etc/apt /var/lib/apt /var/lib/waagent
       - run: sudo apt update
       - uses: ./
         id: action
