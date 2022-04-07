@@ -14,14 +14,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: add-apt-repo
-        uses: tecoli-com/actions-install-and-cache@v0.3
+        uses: tecoli-com/actions-install-and-cache@v0.4
         with:
           cache: workflow
           sudo: true
-          command: add-apt-repository -y
-          target: ppa:ubuntu-toolchain-r/test
+          run: |-
+            add-apt-repository -y ppa:ubuntu-toolchain-r/test
+            apt update
           path: /etc/apt /var/lib/apt /var/lib/waagent
-      - run: sudo apt update
       - uses: ./
         id: action
         with:
@@ -38,14 +38,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: add-apt-repo
-        uses: tecoli-com/actions-install-and-cache@v0.3
+        uses: tecoli-com/actions-install-and-cache@v0.4
         with:
           cache: workflow
           sudo: true
-          command: add-apt-repository -y
-          target: ppa:ubuntu-toolchain-r/test
+          run: |-
+            add-apt-repository -y ppa:ubuntu-toolchain-r/test
+            apt update
           path: /etc/apt /var/lib/apt /var/lib/waagent
-      - run: sudo apt update
       - uses: ./
         id: action
         with:
