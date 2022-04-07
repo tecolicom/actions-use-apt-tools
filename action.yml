@@ -96,6 +96,6 @@ runs:
         archive="${{ steps.setup.outputs.archive }}"
         list=/tmp/dpkg.out
         dpkg -L $tools | while read f; do [ -d "$f" ] || echo "$f"; done > $list
-        sed --in-place s:^/:: $list
+        perl -i -pe s:^/:: $list
         tar -cvzf $archive -C / -T $list
         ls -l $archive
