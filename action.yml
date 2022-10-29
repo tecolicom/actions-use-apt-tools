@@ -71,7 +71,7 @@ runs:
         inputs.method == 'timestamp' &&
         steps.setup.outputs.cache != 'no' &&
         steps.cache.outputs.cache-hit != 'true'
-      uses: tecoli-com/actions-install-and-archive@v0.4
+      uses: tecoli-com/actions-install-and-archive@v0.5
       with:
         run: apt-get install -y ${{ inputs.tools }}
         archive: ${{ steps.setup.outputs.archive }}

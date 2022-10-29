@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: add-apt-repo
-        uses: tecoli-com/actions-install-and-cache@v0.4
+        uses: tecoli-com/actions-install-and-cache@v0.5
         with:
           cache: workflow
           sudo: true
@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: add-apt-repo
-        uses: tecoli-com/actions-install-and-cache@v0.4
+        uses: tecoli-com/actions-install-and-cache@v0.5
         with:
           cache: workflow
           sudo: true
