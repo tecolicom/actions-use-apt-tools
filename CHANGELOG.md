@@ -1,5 +1,6 @@
 ## v0.5
 
+- use `$GITHUB_OUTPUT`
 - use "method" parameter in hash seed
 
 ## v0.4
