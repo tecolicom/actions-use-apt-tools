@@ -52,7 +52,7 @@ runs:
 
     - id: cache
       if: steps.setup.outputs.cache != 'no'
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ${{ steps.setup.outputs.archive }}
         key:  ${{ steps.setup.outputs.key }}
