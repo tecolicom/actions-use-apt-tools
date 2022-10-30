@@ -1,6 +1,6 @@
 # actions-use-apt-tools
 
-![actions-use-apt-tools](https://github.com/tecoli-com/actions-use-apt-tools/actions/workflows/test.yml/badge.svg)
+![actions-use-apt-tools](https://github.com/tecolicom/actions-use-apt-tools/actions/workflows/test.yml/badge.svg)
 
 This GitHub action isntall Linux APT packages and cache them for later
 use.  When executed next time with same package list, and any other
@@ -83,4 +83,4 @@ where they will be placed, provide them by a *path* parameter.
 
 ## See Also
 
-### [tecoli-com/actions](https://github.com/tecoli-com/actions)
+### [tecolicom/actions](https://github.com/tecolicom/actions)
