@@ -32,7 +32,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 #   path:   { required: false, type: string,
 #             default: "/etc /usr/bin /usr/sbin /usr/lib /usr/share /var/lib" }
 
-- uses: tecoli-com/actions-use-apt-tools@v0
+- uses: tecolicom/actions-use-apt-tools@v1
   with:
 
     # apt packages
@@ -63,7 +63,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 ### Normal case with default *package* method
 
 ```yaml
-- uses: tecoli-com/actions-use-apt-tools@v0
+- uses: tecolicom/actions-use-apt-tools@v1
   with:
     tools: bmake
 ```
@@ -75,7 +75,7 @@ package during installation, use *timestamp* method.  If you know
 where they will be placed, provide them by a *path* parameter.
 
 ```yaml
-- uses: tecoli-com/actions-use-apt-tools@v0
+- uses: tecolicom/actions-use-apt-tools@v1
   with:
     tools: mecab mecab-ipadic mecab-ipadic-utf8
     method: timestamp
