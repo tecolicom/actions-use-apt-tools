@@ -1,6 +1,6 @@
 # actions-use-apt-tools
 
-![actions-use-apt-tools](https://github.com/tecolicom/actions-use-apt-tools/actions/workflows/test.yml/badge.svg)
+![actions-use-apt-tools](https://github.com/pheiduck/actions-use-apt-tools/actions/workflows/test.yml/badge.svg)
 
 This GitHub action isntall Linux APT packages and cache them for later
 use.  When executed next time with same package list, and any other
@@ -32,7 +32,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 #   path:   { required: false, type: string,
 #             default: "/etc /usr/bin /usr/sbin /usr/lib /usr/share /var/lib" }
 
-- uses: tecolicom/actions-use-apt-tools@v1
+- uses: pheiduck/actions-use-apt-tools@v1
   with:
 
     # apt packages
@@ -63,7 +63,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 ### Normal case with default *package* method
 
 ```yaml
-- uses: tecolicom/actions-use-apt-tools@v1
+- uses: pheiduck/actions-use-apt-tools@v1
   with:
     tools: bmake
 ```
@@ -75,7 +75,7 @@ package during installation, use *timestamp* method.  If you know
 where they will be placed, provide them by a *path* parameter.
 
 ```yaml
-- uses: tecolicom/actions-use-apt-tools@v1
+- uses: pheiduck/actions-use-apt-tools@v1
   with:
     tools: mecab mecab-ipadic mecab-ipadic-utf8
     method: timestamp
@@ -83,4 +83,4 @@ where they will be placed, provide them by a *path* parameter.
 
 ## See Also
 
-### [tecolicom/actions](https://github.com/tecolicom/actions)
+### [pheiduck/actions](https://github.com/pheiduck/actions)
