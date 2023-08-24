@@ -17,6 +17,7 @@ jobs:
         with:
           cache: workflow
           tools: bmake
+          method: timestamp
       - run: (cd __test__; . run.sh )
       - uses: ./
         id: action2
@@ -36,6 +37,7 @@ jobs:
         with:
           cache: workflow
           tools: bmake
+          method: timestamp
       - run: (cd __test__; . run.sh )
       - uses: ./
         id: action2
