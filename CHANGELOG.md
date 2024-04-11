@@ -1,3 +1,7 @@
+## v1.3
+
+- uses actions/cache@v4
+
 ## v1.1
 
 - Version 1.1
