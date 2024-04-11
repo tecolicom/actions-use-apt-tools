@@ -2,7 +2,7 @@
 
 ![actions-use-apt-tools](https://github.com/tecolicom/actions-use-apt-tools/actions/workflows/test.yml/badge.svg)
 
-This GitHub action isntall Linux APT packages and cache them for later
+This GitHub action installs Linux APT packages and cache them for later
 use.  When executed next time with same package list, and any other
 environment are not changed, installed files are extracted from the
 cached archive.
