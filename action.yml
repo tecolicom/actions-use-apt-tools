@@ -43,7 +43,8 @@ runs:
         tools="${{ inputs.tools }}"
         hash=$( (uname -mrsv; echo $method $tools) | (md5sum||md5) | awk '{print $1}' )
         key="${action_key:+$action_key-}$hash${given_key:+-$given_key}"
-        [ "$cache" == 'workflow' ] && key="$key-${{ github.run_id }}-${{ github.run_attempt }}"
+        [ "$cache" == 'workflow' ] && \
+            key+="-${{ github.run_id }}-${{ github.run_attempt }}"
         sed 's/^ *//' << END >> $GITHUB_OUTPUT
             cache=$cache
             archive=$HOME/apt-$hash.tz
