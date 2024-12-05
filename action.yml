@@ -74,7 +74,7 @@ runs:
         steps.cache.outputs.cache-hit != 'true'
       uses: tecolicom/actions-install-and-archive@v1
       with:
-        run: apt-get install -y ${{ inputs.tools }}
+        run: apt-get update && apt-get install -y ${{ inputs.tools }}
         archive: ${{ steps.setup.outputs.archive }}
         path: ${{ inputs.path }}
         sudo: true
@@ -84,7 +84,9 @@ runs:
         steps.setup.outputs.cache == 'no' ||
         (inputs.method == 'package' && steps.cache.outputs.cache-hit != 'true')
       shell: bash
-      run: sudo apt-get install -y ${{ inputs.tools }}
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ${{ inputs.tools }}
 
     - id: self-archive
       if: >-
