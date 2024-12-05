@@ -1,3 +1,7 @@
+## v1.4
+
+- call "apt-get update" before install
+
 ## v1.3
 
 - uses actions/cache@v4
