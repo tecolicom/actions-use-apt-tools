@@ -1,3 +1,8 @@
+## v1.5
+
+- read dpkg output and archive only existing files,
+  to accommodate the output of the dpkg command in ubuntu-24.04.
+
 ## v1.4
 
 - call "apt-get update" before install
