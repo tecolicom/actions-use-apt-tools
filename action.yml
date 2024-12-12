@@ -85,6 +85,7 @@ runs:
         (inputs.method == 'package' && steps.cache.outputs.cache-hit != 'true')
       shell: bash
       run: |
+        : self install
         sudo apt-get update
         sudo apt-get install -y ${{ inputs.tools }}
 
@@ -98,7 +99,14 @@ runs:
         tools="${{ inputs.tools }}"
         archive="${{ steps.setup.outputs.archive }}"
         list=/tmp/dpkg.out
-        dpkg -L $tools | while read f; do [ -d "$f" ] || echo "$f"; done > $list
+        dpkg -L $tools | while read f
+        do
+            [ -d "$f" ] && continue
+            if [ -e "$f" ]
+            then echo "$f"
+            else echo "not found: $f" >&2
+            fi
+        done > $list
         perl -i -pe s:^/:: $list
         tar -cvzf $archive -C / -T $list
         ls -l $archive
