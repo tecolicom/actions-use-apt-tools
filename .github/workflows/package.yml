@@ -1,0 +1,58 @@
+name: package test on ubuntu-24.04
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  initial:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        id: action
+        with:
+          cache: workflow
+          tools: zsh libnss3-tools
+      - run: zsh --version
+      - run: test "${{ steps.action.outputs.cache-hit }}" != true
+  cached:
+    needs: initial
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        id: action
+        with:
+          cache: workflow
+          tools: zsh libnss3-tools
+      - run: zsh --version
+      - run: test "${{ steps.action.outputs.cache-hit }}" == true
+  no-cache:
+    needs: initial
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        id: action
+        with:
+          cache: no
+          tools: zsh libnss3-tools
+      - run: zsh --version
+      - run: test "${{ steps.action.outputs.cache-hit }}" != true
+  key:
+    needs: initial
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        id: action
+        with:
+          cache: workflow
+          tools: zsh libnss3-tools
+          key: v2
+      - run: zsh --version
+      - run: test "${{ steps.action.outputs.cache-hit }}" != true
