@@ -16,7 +16,7 @@ is **package** method, and files are taken by `dpkg -L` command.  This
 method runs very fast.  For packages generate files during
 installation, use **timestamp** method, and all files those have newer
 timestamp are cached.  Files are searched under /etc,
-/usr/{bin,sbin,lib,share} and /var/lib directory.  Search directries
+/usr/{bin,sbin,lib,share} and /var/lib directory.  Search directories
 can be given by **path** parameter.
 
 Output is same as [`@actions/cache`](https://github.com/actions/cache).
@@ -85,7 +85,7 @@ where they will be placed, provide them by a *path* parameter.
     method: timestamp
 ```
 
-### Add repositories
+### With additional repositories
 
 ```yaml
       - uses: tecolicom/actions-use-apt-tools@v1
@@ -99,3 +99,5 @@ where they will be placed, provide them by a *path* parameter.
 ## See Also
 
 ### [tecolicom/actions](https://github.com/tecolicom/actions)
+
+### [add-apt-repository](https://manpages.ubuntu.com/manpages/trusty/man1/add-apt-repository.1.html)

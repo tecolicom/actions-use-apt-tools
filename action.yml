@@ -68,13 +68,14 @@ runs:
         ls -l $archive
         [ -f $archive ] && sudo tar -C / -xvzf $archive
 
-    - id: additional-repos
-      if: steps.cache.outputs.cache-hit != 'true' && inputs.repos
+    - id: update
+      if: steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
+        : update
         for repo in ${{ inputs.repos }}
         do
-          sudo add-apt-repository --yes $repo
+            sudo add-apt-repository -y $repo
         done
         sudo apt-get update
 
@@ -85,7 +86,7 @@ runs:
         steps.cache.outputs.cache-hit != 'true'
       uses: tecolicom/actions-install-and-archive@v1
       with:
-        run: apt-get update && apt-get install -y ${{ inputs.tools }}
+        run: apt-get install -y ${{ inputs.tools }}
         archive: ${{ steps.setup.outputs.archive }}
         path: ${{ inputs.path }}
         sudo: true
