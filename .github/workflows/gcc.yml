@@ -13,20 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - id: add-apt-repo
-        uses: tecolicom/actions-install-and-cache@v1
-        with:
-          cache: workflow
-          sudo: true
-          run: |-
-            add-apt-repository -y ppa:ubuntu-toolchain-r/test
-            apt update
-          path: /etc/apt /var/lib/apt /var/lib/waagent
       - uses: ./
         id: action
         with:
           cache: workflow
           tools: g++-11
+          repos: ppa:ubuntu-toolchain-r/test
           method: timestamp
       - run: |
           g++-11 --version
@@ -37,20 +29,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - id: add-apt-repo
-        uses: tecolicom/actions-install-and-cache@v1
-        with:
-          cache: workflow
-          sudo: true
-          run: |-
-            add-apt-repository -y ppa:ubuntu-toolchain-r/test
-            apt update
-          path: /etc/apt /var/lib/apt /var/lib/waagent
       - uses: ./
         id: action
         with:
           cache: workflow
           tools: g++-11
+          repos: ppa:ubuntu-toolchain-r/test
           method: timestamp
       - run: |
           g++-11 --version

@@ -7,6 +7,7 @@ branding:
 
 inputs:
   tools:  { required: true,  type: string }
+  repos:  { required: false, type: string }
   cache:  { required: false, type: string, default: yes }
   key:    { required: false, type: string }
   method: { required: false, type: string, default: package }
@@ -66,6 +67,16 @@ runs:
         archive="${{ steps.setup.outputs.archive }}"
         ls -l $archive
         [ -f $archive ] && sudo tar -C / -xvzf $archive
+
+    - id: additional-repos
+      if: steps.cache.outputs.cache-hit != 'true' && inputs.repos
+      shell: bash
+      run: |
+        for repo in ${{ inputs.repos }}
+        do
+          sudo add-apt-repository --yes $repo
+        done
+        sudo apt-get update
 
     - id: install-and-archive
       if: >-

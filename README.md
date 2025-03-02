@@ -26,6 +26,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 ```yaml
 # inputs:
 #   tools:  { required: true,  type: string }
+#   repos:  { required: false, type: string }
 #   cache:  { required: false, type: string, default: yes }
 #   key:    { required: false, type: string }
 #   method: { required: false, type: string, default: package }
@@ -37,6 +38,9 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
     # apt packages
     tools: ''
+
+    # additional repositories
+    repos: ''
 
     # Cache strategy
     #
@@ -79,6 +83,17 @@ where they will be placed, provide them by a *path* parameter.
   with:
     tools: mecab mecab-ipadic mecab-ipadic-utf8
     method: timestamp
+```
+
+### Add repositories
+
+```yaml
+      - uses: tecolicom/actions-use-apt-tools@v1
+        id: action
+        with:
+          tools: g++-11
+          repos: ppa:ubuntu-toolchain-r/test
+          method: timestamp
 ```
 
 ## See Also
