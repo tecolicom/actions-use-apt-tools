@@ -88,12 +88,12 @@ where they will be placed, provide them by a *path* parameter.
 ### With additional repositories
 
 ```yaml
-      - uses: tecolicom/actions-use-apt-tools@v1
-        id: action
-        with:
-          repos: ppa:ubuntu-toolchain-r/test
-          tools: g++-11
-          method: timestamp
+- uses: tecolicom/actions-use-apt-tools@v1
+  id: action
+  with:
+    repos: ppa:ubuntu-toolchain-r/test
+    tools: g++-11
+    method: timestamp
 ```
 
 ## See Also
