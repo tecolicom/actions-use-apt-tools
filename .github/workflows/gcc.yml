@@ -17,8 +17,8 @@ jobs:
         id: action
         with:
           cache: workflow
-          tools: g++-11
           repos: ppa:ubuntu-toolchain-r/test
+          tools: g++-11
           method: timestamp
       - run: |
           g++-11 --version
@@ -33,8 +33,8 @@ jobs:
         id: action
         with:
           cache: workflow
-          tools: g++-11
           repos: ppa:ubuntu-toolchain-r/test
+          tools: g++-11
           method: timestamp
       - run: |
           g++-11 --version

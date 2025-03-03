@@ -1,3 +1,7 @@
+## v1.6
+
+- introduce new `repos` parameter to specify additional repositories
+
 ## v1.5
 
 - read dpkg output and archive only existing files,

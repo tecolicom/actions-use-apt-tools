@@ -91,8 +91,8 @@ where they will be placed, provide them by a *path* parameter.
       - uses: tecolicom/actions-use-apt-tools@v1
         id: action
         with:
-          tools: g++-11
           repos: ppa:ubuntu-toolchain-r/test
+          tools: g++-11
           method: timestamp
 ```
 

@@ -98,7 +98,6 @@ runs:
       shell: bash
       run: |
         : self install
-        sudo apt-get update
         sudo apt-get install -y ${{ inputs.tools }}
 
     - id: self-archive
