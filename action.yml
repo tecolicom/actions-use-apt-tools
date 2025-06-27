@@ -73,11 +73,17 @@ runs:
       shell: bash
       run: |
         : update
+
+        # unsure why, but these commands seem to break the GHA action log grouping and require manual group definition
+        # https://grok.com/share/bGVnYWN5_54fd6ddf-1d3b-4b26-8841-6c3bed12e16d
+
+        echo "::group::update apt repositories"
         for repo in ${{ inputs.repos }}
         do
             sudo add-apt-repository -y $repo
         done
         sudo apt-get update
+        echo "::endgroup::"
 
     - id: install-and-archive
       if: >-
@@ -86,7 +92,10 @@ runs:
         steps.cache.outputs.cache-hit != 'true'
       uses: tecolicom/actions-install-and-archive@v1
       with:
-        run: apt-get install -y ${{ inputs.tools }}
+        run: |-
+          echo "::group::install and archive apt tools"
+          apt-get install -y ${{ inputs.tools }}
+          echo "::endgroup::"
         archive: ${{ steps.setup.outputs.archive }}
         path: ${{ inputs.path }}
         sudo: true
@@ -98,7 +107,7 @@ runs:
       shell: bash
       run: |
         : self install
-        sudo apt-get install -y ${{ inputs.tools }}
+        sudo apt-get install -y ${{ inputs.tools }} 2>&1
 
     - id: self-archive
       if: >-
@@ -110,6 +119,8 @@ runs:
         tools="${{ inputs.tools }}"
         archive="${{ steps.setup.outputs.archive }}"
         list=/tmp/dpkg.out
+        
+        echo "::group::archive installed apt tools"
         dpkg -L $tools | while read f
         do
             [ -d "$f" ] && continue
@@ -121,3 +132,4 @@ runs:
         perl -i -pe s:^/:: $list
         tar -cvzf $archive -C / -T $list
         ls -l $archive
+        echo "::endgroup::"
