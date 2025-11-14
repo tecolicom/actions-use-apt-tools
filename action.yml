@@ -42,7 +42,8 @@ runs:
         given_key="${{ inputs.key }}"
         method="${{ inputs.method }}"
         tools="${{ inputs.tools }}"
-        hash=$( (uname -mrsv; echo $method $tools) | (md5sum||md5) | awk '{print $1}' )
+        path="${{ inputs.path }}"
+        hash=$( (uname -mrsv; echo $method $tools $path) | (md5sum||md5) | awk '{print $1}' )
         key="${action_key:+$action_key-}$hash${given_key:+-$given_key}"
         [ "$cache" == 'workflow' ] && \
             key+="-${{ github.run_id }}-${{ github.run_attempt }}"
